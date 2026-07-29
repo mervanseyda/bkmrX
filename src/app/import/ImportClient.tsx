@@ -49,7 +49,7 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
   };
 
   console.log('[bkmrX] Export started. Keep this tab open…');
-  while (unchangedRounds < 40) {
+  while (unchangedRounds < 30) {
     collectVisibleBookmarks();
     
     if (bookmarks.size > previousSize) {
@@ -59,8 +59,7 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
     } else {
       unchangedRounds++;
       
-      // If we are stuck, try to find and click Twitter's "Retry" or "Yeniden dene" button
-      if (unchangedRounds % 5 === 0) {
+      if (unchangedRounds % 3 === 0) {
         const retryBtn = Array.from(document.querySelectorAll('button')).find(b => 
           b.textContent?.match(/retry|yeniden/i)
         );
@@ -71,10 +70,10 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
       }
     }
 
-    // Scroll by a smaller amount (300px) very frequently (250ms)
-    // This smooth scrolling guarantees we never skip past a tweet before it renders
-    window.scrollBy(0, 300);
-    await new Promise((resolve) => setTimeout(resolve, 250));
+    // Scroll by a full screen (800px) and wait 1.5s for network and rendering
+    // Fast scrolling causes Twitter to spam API requests and hit Rate Limits quickly!
+    window.scrollBy(0, 800);
+    await new Promise((resolve) => setTimeout(resolve, 1500));
   }
 
   collectVisibleBookmarks();
