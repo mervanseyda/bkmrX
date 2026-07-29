@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload, FileArchive, Loader2, Info, Copy, Check, Trash2 } from 'lucide-react';
 import { parseJsonBookmarks } from '@/lib/import/json';
@@ -79,6 +79,7 @@ export function ImportClient({ dict }: { dict: Dictionary['import'] }) {
   const [isUploading, setIsUploading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
+  const fallbackTextareaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,26 +123,34 @@ export function ImportClient({ dict }: { dict: Dictionary['import'] }) {
   };
 
   const copyScript = async () => {
-    try {
-      await navigator.clipboard.writeText(extractionScript);
-    } catch {
-      const textarea = document.createElement('textarea');
-      textarea.value = extractionScript;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      const copiedSuccessfully = document.execCommand('copy');
-      textarea.remove();
-
-      if (!copiedSuccessfully) {
-        toast.error(dict.copyError);
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(extractionScript);
+        setCopied(true);
+        toast.success(dict.copied);
+        setTimeout(() => setCopied(false), 2000);
         return;
+      } catch (error) {
+        console.error('Clipboard API failed, trying fallback', error);
       }
     }
-    setCopied(true);
-    toast.success(dict.copied);
-    setTimeout(() => setCopied(false), 2000);
+
+    if (fallbackTextareaRef.current) {
+      fallbackTextareaRef.current.select();
+      try {
+        const copiedSuccessfully = document.execCommand('copy');
+        if (copiedSuccessfully) {
+          setCopied(true);
+          toast.success(dict.copied);
+          setTimeout(() => setCopied(false), 2000);
+          return;
+        }
+      } catch (err) {
+        console.error('execCommand failed', err);
+      }
+    }
+    
+    toast.error(dict.copyError);
   };
 
   const handleReset = async () => {
@@ -230,6 +239,16 @@ export function ImportClient({ dict }: { dict: Dictionary['import'] }) {
           </Button>
         </CardContent>
       </Card>
+
+      {/* Hidden textarea for copy fallback when not in secure context */}
+      <textarea 
+        ref={fallbackTextareaRef}
+        value={extractionScript}
+        readOnly
+        className="sr-only"
+        aria-hidden="true"
+        tabIndex={-1}
+      />
     </div>
   );
 }
