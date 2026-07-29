@@ -16,9 +16,10 @@ interface BookmarkRow {
   postDate: Date | null;
 }
 
-export function BookmarksTable({ initialData, dict }: { initialData: BookmarkRow[], dict: Dictionary['bookmarks'] }) {
+export function BookmarksTable({ initialData, dict, initialStatus }: { initialData: BookmarkRow[], dict: Dictionary['bookmarks'], initialStatus?: string }) {
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<'oldest' | 'newest'>('newest');
+  const [statusFilter, setStatusFilter] = useState<string>(initialStatus || 'all');
 
   const statusMap: Record<string, { label: string, color: string }> = {
     unreviewed: { label: dict.statusUnreviewed, color: 'bg-zinc-700' },
@@ -31,10 +32,23 @@ export function BookmarksTable({ initialData, dict }: { initialData: BookmarkRow
     purged: { label: 'Purged', color: 'bg-gray-800' },
   };
 
-  const filtered = initialData.filter(b =>
-    (b.text && b.text.toLowerCase().includes(search.toLowerCase())) ||
-    (b.authorUsername && b.authorUsername.toLowerCase().includes(search.toLowerCase()))
-  );
+  const filtered = initialData.filter(b => {
+    const matchesSearch = (b.text && b.text.toLowerCase().includes(search.toLowerCase())) ||
+      (b.authorUsername && b.authorUsername.toLowerCase().includes(search.toLowerCase()));
+    
+    let matchesStatus = true;
+    if (statusFilter !== 'all') {
+      if (statusFilter === 'export') {
+        matchesStatus = ['export_to_raindrop', 'export_and_keep', 'export_and_delete'].includes(b.status);
+      } else if (statusFilter === 'delete') {
+        matchesStatus = ['delete_candidate', 'export_and_delete'].includes(b.status);
+      } else {
+        matchesStatus = b.status === statusFilter;
+      }
+    }
+    
+    return matchesSearch && matchesStatus;
+  });
 
   const sorted = [...filtered].sort((a, b) => {
     const aTime = a.postDate ? new Date(a.postDate).getTime() : null;
@@ -57,6 +71,18 @@ export function BookmarksTable({ initialData, dict }: { initialData: BookmarkRow
             className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800"
           />
         </div>
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="h-9 rounded-md border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 text-sm text-gray-700 dark:text-zinc-200"
+        >
+          <option value="all">Tüm Durumlar</option>
+          <option value="unreviewed">{dict.statusUnreviewed}</option>
+          <option value="keep">{dict.statusKeep}</option>
+          <option value="delete">{dict.statusDelete}</option>
+          <option value="export">{dict.statusExport}</option>
+          <option value="undecided">{dict.statusUndecided}</option>
+        </select>
         <select
           aria-label={dict.sortLabel}
           value={sort}

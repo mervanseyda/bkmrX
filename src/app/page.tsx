@@ -40,55 +40,69 @@ export default async function Dashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.total}</CardTitle>
-            <Bookmark className="w-4 h-4 text-gray-400 dark:text-zinc-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{total}</div>
-          </CardContent>
-        </Card>
+        <Link href="/bookmarks" className="block transition-transform hover:scale-[102%]">
+          <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.total}</CardTitle>
+              <Bookmark className="w-4 h-4 text-gray-400 dark:text-zinc-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">{total}</div>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.unreviewed}</CardTitle>
-            <CheckCircle className="w-4 h-4 text-amber-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{statusCounts['unreviewed'] || 0}</div>
-          </CardContent>
-        </Card>
+        <Link href="/bookmarks?status=unreviewed" className="block transition-transform hover:scale-[102%]">
+          <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.unreviewed}</CardTitle>
+              <CheckCircle className="w-4 h-4 text-amber-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">{statusCounts['unreviewed'] || 0}</div>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.keep}</CardTitle>
-            <CheckCircle className="w-4 h-4 text-emerald-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{statusCounts['keep'] || 0}</div>
-          </CardContent>
-        </Card>
+        <Link href="/bookmarks?status=keep" className="block transition-transform hover:scale-[102%]">
+          <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.keep}</CardTitle>
+              <CheckCircle className="w-4 h-4 text-emerald-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">{statusCounts['keep'] || 0}</div>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.export}</CardTitle>
-            <Download className="w-4 h-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{statusCounts['export_to_raindrop'] || 0}</div>
-          </CardContent>
-        </Card>
+        <Link href="/bookmarks?status=export" className="block transition-transform hover:scale-[102%]">
+          <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.export}</CardTitle>
+              <Download className="w-4 h-4 text-blue-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                {(statusCounts['export_to_raindrop'] || 0) + (statusCounts['export_and_keep'] || 0) + (statusCounts['export_and_delete'] || 0)}
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.delete}</CardTitle>
-            <Trash2 className="w-4 h-4 text-red-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{statusCounts['delete_candidate'] || 0}</div>
-          </CardContent>
-        </Card>
+        <Link href="/bookmarks?status=delete" className="block transition-transform hover:scale-[102%]">
+          <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.delete}</CardTitle>
+              <Trash2 className="w-4 h-4 text-red-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                {(statusCounts['delete_candidate'] || 0) + (statusCounts['export_and_delete'] || 0)}
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
 
 
       </div>
