@@ -48,6 +48,23 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
     }
   };
 
+  const smoothScrollDown = (pixels) => {
+    return new Promise(resolve => {
+      let scrolled = 0;
+      const step = 40; // Pixels per frame
+      const animate = () => {
+        window.scrollBy(0, step);
+        scrolled += step;
+        if (scrolled < pixels) {
+          requestAnimationFrame(animate);
+        } else {
+          resolve();
+        }
+      };
+      requestAnimationFrame(animate);
+    });
+  };
+
   console.log('[bkmrX] Export started. Keep this tab open…');
   while (unchangedRounds < 30) {
     collectVisibleBookmarks();
@@ -70,10 +87,9 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
       }
     }
 
-    // Scroll by a full screen (800px) and wait 1.5s for network and rendering
-    // Fast scrolling causes Twitter to spam API requests and hit Rate Limits quickly!
-    window.scrollBy(0, 800);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Scroll smoothly by ~800px over a short duration, then wait 800ms
+    await smoothScrollDown(800);
+    await new Promise((resolve) => setTimeout(resolve, 800));
   }
 
   collectVisibleBookmarks();
