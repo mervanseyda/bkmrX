@@ -49,7 +49,7 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
   };
 
   console.log('[bkmrX] Export started. Keep this tab open…');
-  while (unchangedRounds < 240) {
+  while (unchangedRounds < 40) {
     collectVisibleBookmarks();
     
     if (bookmarks.size > previousSize) {
@@ -58,6 +58,17 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
       previousSize = bookmarks.size;
     } else {
       unchangedRounds++;
+      
+      // If we are stuck, try to find and click Twitter's "Retry" or "Yeniden dene" button
+      if (unchangedRounds % 5 === 0) {
+        const retryBtn = Array.from(document.querySelectorAll('button')).find(b => 
+          b.textContent?.match(/retry|yeniden/i)
+        );
+        if (retryBtn) {
+          console.log('[bkmrX] Clicking Retry button...');
+          retryBtn.click();
+        }
+      }
     }
 
     // Scroll by a smaller amount (300px) very frequently (250ms)
