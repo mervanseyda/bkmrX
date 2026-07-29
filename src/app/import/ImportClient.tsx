@@ -49,14 +49,21 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
   };
 
   console.log('[bkmrX] Export started. Keep this tab open…');
-  while (unchangedRounds < 40) {
+  while (unchangedRounds < 150) {
     collectVisibleBookmarks();
-    console.log('[bkmrX] Collected:', bookmarks.size);
+    
+    if (bookmarks.size > previousSize) {
+      console.log('[bkmrX] Collected:', bookmarks.size);
+      unchangedRounds = 0;
+      previousSize = bookmarks.size;
+    } else {
+      unchangedRounds++;
+    }
 
-    unchangedRounds = bookmarks.size === previousSize ? unchangedRounds + 1 : 0;
-    previousSize = bookmarks.size;
-    window.scrollBy(0, 500);
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    // Scroll by a smaller amount (300px) very frequently (250ms)
+    // This smooth scrolling guarantees we never skip past a tweet before it renders
+    window.scrollBy(0, 300);
+    await new Promise((resolve) => setTimeout(resolve, 250));
   }
 
   collectVisibleBookmarks();
