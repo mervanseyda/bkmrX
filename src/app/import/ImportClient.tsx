@@ -48,23 +48,6 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
     }
   };
 
-  const smoothScrollDown = (pixels) => {
-    return new Promise(resolve => {
-      let scrolled = 0;
-      const step = 40; // Pixels per frame
-      const animate = () => {
-        window.scrollBy(0, step);
-        scrolled += step;
-        if (scrolled < pixels) {
-          requestAnimationFrame(animate);
-        } else {
-          resolve();
-        }
-      };
-      requestAnimationFrame(animate);
-    });
-  };
-
   console.log('[bkmrX] Export started. Keep this tab open…');
   while (unchangedRounds < 30) {
     collectVisibleBookmarks();
@@ -87,8 +70,15 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
       }
     }
 
-    // Scroll smoothly by ~800px over a short duration, then wait 800ms
-    await smoothScrollDown(800);
+    // Instead of scrolling by pixels, find the last loaded tweet and scroll it into view.
+    // This perfectly triggers Twitter's 'load more' observer in Chrome/Firefox without spamming.
+    const articles = document.querySelectorAll('article');
+    if (articles.length > 0) {
+      articles[articles.length - 1].scrollIntoView({ behavior: 'smooth', block: 'end' });
+    } else {
+      window.scrollBy(0, 800);
+    }
+    
     await new Promise((resolve) => setTimeout(resolve, 800));
   }
 
