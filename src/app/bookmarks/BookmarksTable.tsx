@@ -5,6 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { ExternalLink, Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useEffect, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { bulkUpdateBookmarkStatus } from '../actions';
 import type { Dictionary } from '@/lib/i18n';
 
 interface BookmarkRow {
@@ -20,6 +25,15 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<'oldest' | 'newest'>('newest');
   const [statusFilter, setStatusFilter] = useState<string>(initialStatus || 'all');
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (initialStatus) {
+      setStatusFilter(initialStatus);
+    }
+  }, [initialStatus]);
 
   const statusMap: Record<string, { label: string, color: string }> = {
     unreviewed: { label: dict.statusUnreviewed, color: 'bg-zinc-700' },
@@ -58,6 +72,21 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
     if (bTime === null) return -1;
     return sort === 'oldest' ? aTime - bTime : bTime - aTime;
   });
+
+  const visibleBookmarks = sorted.slice(0, 100);
+
+  const handleBulkAction = (status: string) => {
+    startTransition(async () => {
+      const res = await bulkUpdateBookmarkStatus(Array.from(selectedIds), status);
+      if (res.success) {
+        toast.success(`${selectedIds.size} kayıt başarıyla güncellendi.`);
+        setSelectedIds(new Set());
+        router.refresh();
+      } else {
+        toast.error(res.error || 'Bir hata oluştu');
+      }
+    });
+  };
 
   return (
     <div className="space-y-4">
@@ -98,6 +127,17 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
         <Table>
           <TableHeader className="bg-white dark:bg-zinc-900">
             <TableRow className="border-gray-200 dark:border-zinc-800 hover:bg-white dark:bg-zinc-900/80">
+              <TableHead className="w-12 text-center">
+                <input 
+                  type="checkbox" 
+                  className="w-4 h-4 rounded border-gray-300"
+                  checked={selectedIds.size > 0 && selectedIds.size === visibleBookmarks.length}
+                  onChange={(e) => {
+                    if (e.target.checked) setSelectedIds(new Set(visibleBookmarks.map(b => b.id)));
+                    else setSelectedIds(new Set());
+                  }}
+                />
+              </TableHead>
               <TableHead>{dict.tableContent}</TableHead>
               <TableHead>{dict.tableAuthor}</TableHead>
               <TableHead>{dict.tableDate}</TableHead>
@@ -106,8 +146,21 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sorted.slice(0, 100).map((bookmark) => (
+            {visibleBookmarks.map((bookmark) => (
               <TableRow key={bookmark.id} className="border-gray-200 dark:border-zinc-800 hover:bg-gray-200 dark:bg-zinc-800/50 transition-colors">
+                <TableCell className="text-center">
+                  <input 
+                    type="checkbox" 
+                    className="w-4 h-4 rounded border-gray-300"
+                    checked={selectedIds.has(bookmark.id)}
+                    onChange={(e) => {
+                      const newSet = new Set(selectedIds);
+                      if (e.target.checked) newSet.add(bookmark.id);
+                      else newSet.delete(bookmark.id);
+                      setSelectedIds(newSet);
+                    }}
+                  />
+                </TableCell>
                 <TableCell className="max-w-md truncate">
                   <div className="font-medium text-gray-900 dark:text-zinc-200 truncate">{bookmark.text || dict.notFound}</div>
                   <a href={bookmark.url} target="_blank" rel="noreferrer" className="text-xs text-blue-500 hover:underline truncate block">
@@ -138,6 +191,19 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
           </div>
         )}
       </div>
+
+      {selectedIds.size > 0 && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-2xl rounded-full px-6 py-3 flex items-center gap-4 z-50 animate-in slide-in-from-bottom-5">
+          <span className="text-sm font-medium text-gray-700 dark:text-zinc-300 whitespace-nowrap">
+            {selectedIds.size} seçili
+          </span>
+          <div className="h-6 w-px bg-gray-200 dark:bg-zinc-700" />
+          <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full">Keep</Button>
+          <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="bg-red-600 hover:bg-red-700 text-white rounded-full">Delete</Button>
+          <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="bg-blue-600 hover:bg-blue-700 text-white rounded-full">Export & Sakla</Button>
+          <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="bg-orange-600 hover:bg-orange-700 text-white rounded-full">Export & Sil</Button>
+        </div>
+      )}
     </div>
   );
 }
