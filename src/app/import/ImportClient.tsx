@@ -93,9 +93,22 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
     download: 'bkmrx-bookmarks.json',
   });
   link.click();
-  URL.revokeObjectURL(url);
+  
+  // SAFEGUARD: If browser blocks automated download, give them a manual button
+  const fallbackBtn = document.createElement('button');
+  fallbackBtn.innerHTML = '📥 İndirme Başlamadıysa Buraya Tıklayıp Manuel İndir (' + bookmarks.size + ' Tweet)';
+  fallbackBtn.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999999;padding:20px 40px;background:#1d9bf0;color:white;font-size:20px;font-weight:bold;border-radius:10px;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,0.5);border:2px solid white;';
+  fallbackBtn.onclick = () => {
+    const manualUrl = URL.createObjectURL(new Blob([payload], { type: 'application/json' }));
+    const manualLink = document.createElement('a');
+    manualLink.href = manualUrl;
+    manualLink.download = 'bkmrx-bookmarks-manual.json';
+    manualLink.click();
+  };
+  document.body.appendChild(fallbackBtn);
+
   console.log('[bkmrX] Finished:', bookmarks.size, 'bookmarks');
-  alert('bkmrX exported ' + bookmarks.size + ' bookmarks.');
+  alert('bkmrX exported ' + bookmarks.size + ' bookmarks. (Eğer dosya inmediyse ekranın en üstündeki mavi butona tıklayın)');
 })();`;
 
 export function ImportClient({ dict }: { dict: Dictionary['import'] }) {
