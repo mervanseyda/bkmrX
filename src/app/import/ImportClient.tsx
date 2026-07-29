@@ -56,7 +56,7 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
     unchangedRounds = bookmarks.size === previousSize ? unchangedRounds + 1 : 0;
     previousSize = bookmarks.size;
     window.scrollBy(0, Math.max(window.innerHeight * 0.85, 700));
-    await new Promise((resolve) => setTimeout(resolve, 1400));
+    await new Promise((resolve) => setTimeout(resolve, 800));
   }
 
   collectVisibleBookmarks();
