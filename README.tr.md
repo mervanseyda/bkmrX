@@ -23,13 +23,30 @@ Bir yer işaretini **Sil** olarak işaretlemek yalnızca yerel silme listesine e
 - Node.js 20.9 veya daha yeni bir sürüm
 - npm
 
-## Hızlı kurulum
+## Hızlı kurulum (Terminal gerektirmez)
+
+bkmrX'i çalıştırmanın en kolay yolu, projeyle birlikte gelen başlatıcı dosyaları kullanmaktır. Bilgisayarınızda sadece [Node.js](https://nodejs.org/) (LTS versiyonu) yüklü olması yeterlidir.
+
+**Windows için:**
+1. Projeyi indirin (ZIP olarak veya git clone ile) ve klasöre çıkartın.
+2. Klasörün içindeki `start-windows.bat` dosyasına çift tıklayın.
+3. Betik otomatik olarak gerekli paketleri yükleyecek, veritabanını hazırlayacak ve uygulamayı tarayıcınızda açacaktır.
+
+**macOS için:**
+1. Projeyi indirin.
+2. Klasörün içindeki `start-mac.command` dosyasına çift tıklayın (veya terminale sürükleyip Enter'a basın).
+3. Gerisini sistem halledecek ve tarayıcınızı otomatik açacaktır.
+
+*(Not: Uygulamayı kullanırken arka planda açılan siyah terminal penceresini lütfen kapatmayın. İşiniz bitince çarpıdan kapatabilirsiniz.)*
+
+### Alternatif: Manuel kurulum
+Eğer işlemleri terminal üzerinden kendiniz yapmak isterseniz:
 
 ```bash
 git clone https://github.com/mervanseyda/bkmrX.git
 cd bkmrX
-npm ci
-npm run db:migrate
+npm install
+npm run db:push
 npm run dev
 ```
 

@@ -23,14 +23,31 @@ Marking a bookmark as **Delete** only adds it to a local queue. Nothing is remov
 - Node.js 20.9 or newer
 - npm
 
-## Quick start
+## Quick start (No terminal required)
+
+The easiest way to run bkmrX is using the provided startup scripts. You only need to have [Node.js](https://nodejs.org/) (LTS version) installed on your computer.
+
+**For Windows:**
+1. Download the repository (as ZIP or via git clone) and extract it.
+2. Double-click the `start-windows.bat` file in the folder.
+3. The script will automatically install dependencies, set up the database, and open the app in your browser.
+
+**For macOS:**
+1. Download the repository.
+2. Double-click the `start-mac.command` file (or open terminal, drag and drop the file, and press Enter).
+3. The script will handle the rest and open your browser automatically.
+
+*(Note: Please keep the terminal window that opens in the background running while using the app. You can close it when you are done.)*
+
+### Alternative: Manual command-line setup
+If you prefer running it manually via terminal:
 
 ```bash
 # Clone this repository, then enter its directory:
 git clone https://github.com/mervanseyda/bkmrX.git
 cd bkmrX
-npm ci
-npm run db:migrate
+npm install
+npm run db:push
 npm run dev
 ```
 
