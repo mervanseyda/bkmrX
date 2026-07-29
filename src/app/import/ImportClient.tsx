@@ -49,7 +49,7 @@ const extractionScript = String.raw`// bkmrX bookmark exporter — run on https:
   };
 
   console.log('[bkmrX] Export started. Keep this tab open…');
-  while (unchangedRounds < 150) {
+  while (unchangedRounds < 240) {
     collectVisibleBookmarks();
     
     if (bookmarks.size > previousSize) {
