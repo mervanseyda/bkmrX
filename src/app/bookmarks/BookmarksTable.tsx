@@ -25,6 +25,8 @@ export function BookmarksTable({ initialData, dict }: { initialData: BookmarkRow
     keep: { label: dict.statusKeep, color: 'bg-emerald-600' },
     delete_candidate: { label: dict.statusDelete, color: 'bg-red-600' },
     export_to_raindrop: { label: dict.statusExport, color: 'bg-blue-600' },
+    export_and_keep: { label: 'Export & Sakla', color: 'bg-blue-600' },
+    export_and_delete: { label: 'Export & Sil', color: 'bg-orange-600' },
     undecided: { label: dict.statusUndecided, color: 'bg-amber-600' },
     purged: { label: 'Purged', color: 'bg-gray-800' },
   };

@@ -13,7 +13,7 @@ export async function generateRaindropCsv() {
     notes: bookmarks.notes,
     categoryId: bookmarks.categoryId,
     postDate: bookmarks.postDate,
-  }).from(bookmarks).where(eq(bookmarks.status, 'export_to_raindrop'));
+  }).from(bookmarks).where(inArray(bookmarks.status, ['export_to_raindrop', 'export_and_keep', 'export_and_delete']));
 
   if (items.length === 0) {
     return { success: false, error: 'Dışa aktarılacak kayıt bulunamadı.' };
@@ -55,7 +55,7 @@ export async function generateRaindropCsv() {
 export async function generateTwitterDeletionScript() {
   const items = await db.select({
     tweetId: bookmarks.tweetId,
-  }).from(bookmarks).where(inArray(bookmarks.status, ['deleted', 'delete_candidate']));
+  }).from(bookmarks).where(inArray(bookmarks.status, ['deleted', 'delete_candidate', 'export_and_delete']));
 
   const tweetIds = items.map(i => i.tweetId).filter(Boolean);
 

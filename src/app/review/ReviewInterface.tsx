@@ -42,7 +42,8 @@ export function ReviewInterface({
         const message = {
           keep: dict.markedKeep,
           delete_candidate: dict.markedDelete,
-          export_to_raindrop: dict.markedExport,
+          export_and_keep: 'Export & Sakla olarak işaretlendi',
+          export_and_delete: 'Export & Sil olarak işaretlendi',
           undecided: dict.markedUndecided,
         }[status] || dict.statusUpdated;
         toast.success(message);
@@ -65,7 +66,8 @@ export function ReviewInterface({
       switch (e.key.toLowerCase()) {
         case 'k': handleAction('keep'); break;
         case 'd': handleAction('delete_candidate'); break;
-        case 'e': handleAction('export_to_raindrop'); break;
+        case 'e': handleAction('export_and_delete'); break;
+        case 's': handleAction('export_and_keep'); break;
         case 'u': handleAction('undecided'); break;
         case 'o': 
           if (currentItem?.url) window.open(currentItem.url, '_blank');
@@ -171,12 +173,20 @@ export function ReviewInterface({
             {dict.delete}
           </Button>
           <Button 
-            className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
-            onClick={() => handleAction('export_to_raindrop')}
+            className="bg-orange-600 hover:bg-orange-700 text-white flex-1"
+            onClick={() => handleAction('export_and_delete')}
             disabled={isPending}
           >
             <Download className="w-4 h-4 mr-2" />
-            {dict.export}
+            Export & Sil
+          </Button>
+          <Button 
+            className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+            onClick={() => handleAction('export_and_keep')}
+            disabled={isPending}
+          >
+            <Download className="w-4 h-4 mr-2" />
+            Export & Sakla
           </Button>
           <Button 
             variant="outline" 
@@ -193,7 +203,8 @@ export function ReviewInterface({
       <div className="text-gray-400 dark:text-zinc-500 text-sm flex gap-4 mt-8">
         <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">K</kbd> {dict.keep}</span>
         <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">D</kbd> {dict.delete}</span>
-        <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">E</kbd> {dict.export}</span>
+        <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">E</kbd> Export & Sil</span>
+        <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">S</kbd> Export & Sakla</span>
         <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">U</kbd> {dict.undecided}</span>
         <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">O</kbd> {dict.open}</span>
       </div>
