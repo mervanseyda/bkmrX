@@ -5,7 +5,7 @@ import { BookmarksTable } from './BookmarksTable';
 import { getLocale } from '@/lib/getLocale';
 import { getDict } from '@/lib/i18n';
 
-export default async function BookmarksPage({ searchParams }: { searchParams: { status?: string } }) {
+export default async function BookmarksPage({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
   const locale = await getLocale();
   const dict = getDict(locale).bookmarks;
   const allBookmarks = await db.select().from(bookmarks).where(ne(bookmarks.status, 'purged')).orderBy(desc(bookmarks.importedDate));
@@ -17,7 +17,7 @@ export default async function BookmarksPage({ searchParams }: { searchParams: { 
         <p className="text-gray-500 dark:text-zinc-400 mt-2">{dict.desc}</p>
       </div>
       
-      <BookmarksTable initialData={allBookmarks} dict={dict} initialStatus={searchParams.status} />
+      <BookmarksTable initialData={allBookmarks} dict={dict} initialStatus={(await searchParams).status} />
     </div>
   );
 }
