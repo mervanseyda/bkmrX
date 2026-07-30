@@ -77,13 +77,18 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
 
   const handleBulkAction = (status: string) => {
     startTransition(async () => {
-      const res = await bulkUpdateBookmarkStatus(Array.from(selectedIds), status);
-      if (res.success) {
-        toast.success(`${selectedIds.size} kayıt başarıyla güncellendi.`);
-        setSelectedIds(new Set());
-        router.refresh();
-      } else {
-        toast.error(res.error || 'Bir hata oluştu');
+      try {
+        const res = await bulkUpdateBookmarkStatus(Array.from(selectedIds), status);
+        if (res.success) {
+          toast.success(`${selectedIds.size} kayıt başarıyla güncellendi.`);
+          setSelectedIds(new Set());
+          router.refresh();
+        } else {
+          toast.error(res.error || 'Bir hata oluştu');
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error('Sunucuyla bağlantı kurulamadı. Sayfayı yenileyin.');
       }
     });
   };
@@ -193,15 +198,15 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
       </div>
 
       {selectedIds.size > 0 && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-2xl rounded-full px-6 py-3 flex items-center gap-4 z-50 animate-in slide-in-from-bottom-5">
-          <span className="text-sm font-medium text-gray-700 dark:text-zinc-300 whitespace-nowrap">
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-2xl rounded-full px-6 py-4 flex items-center gap-4 z-[9999]">
+          <span className="text-sm font-bold text-gray-900 dark:text-zinc-100 whitespace-nowrap">
             {selectedIds.size} seçili
           </span>
           <div className="h-6 w-px bg-gray-200 dark:bg-zinc-700" />
-          <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full">Keep</Button>
-          <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="bg-red-600 hover:bg-red-700 text-white rounded-full">Delete</Button>
-          <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="bg-blue-600 hover:bg-blue-700 text-white rounded-full">Export & Sakla</Button>
-          <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="bg-orange-600 hover:bg-orange-700 text-white rounded-full">Export & Sil</Button>
+          <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-medium shadow-sm">Sakla (Keep)</Button>
+          <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="bg-red-600 hover:bg-red-700 text-white rounded-full font-medium shadow-sm">Sil (Delete)</Button>
+          <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium shadow-sm">Export & Sakla</Button>
+          <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="bg-orange-600 hover:bg-orange-700 text-white rounded-full font-medium shadow-sm">Export & Sil</Button>
         </div>
       )}
     </div>

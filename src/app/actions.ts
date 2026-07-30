@@ -2,7 +2,7 @@
 
 import { db } from '@/db';
 import { bookmarks, reviewActions } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, inArray } from 'drizzle-orm';
 import { z } from 'zod';
 
 const bookmarkStatusSchema = z.enum([
@@ -56,16 +56,19 @@ export async function bulkUpdateBookmarkStatus(bookmarkIds: string[], status: st
   }
 
   try {
-    for (const id of validIds) {
-      await db.update(bookmarks).set({ status: parsedStatus.data }).where(eq(bookmarks.id, id));
-      
-      await db.insert(reviewActions).values({
-        id: crypto.randomUUID(),
-        bookmarkId: id,
-        action: parsedStatus.data,
-        timestamp: new Date()
-      });
-    }
+    // Toplu güncelleme
+    await db.update(bookmarks).set({ status: parsedStatus.data }).where(inArray(bookmarks.id, validIds));
+    
+    // Toplu log ekleme
+    const reviewLogs = validIds.map(id => ({
+      id: crypto.randomUUID(),
+      bookmarkId: id,
+      action: parsedStatus.data,
+      timestamp: new Date()
+    }));
+    
+    // SQLite bulk insert
+    await db.insert(reviewActions).values(reviewLogs);
 
     return { success: true };
   } catch (error) {
