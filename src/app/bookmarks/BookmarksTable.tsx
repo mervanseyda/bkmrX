@@ -94,7 +94,7 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-24 relative">
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2 w-full max-w-sm">
           <Search className="w-4 h-4 text-gray-400 dark:text-zinc-500" />
@@ -197,18 +197,16 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
         )}
       </div>
 
-      {selectedIds.size > 0 && (
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-2xl rounded-full px-6 py-4 flex items-center gap-4 z-[9999]">
-          <span className="text-sm font-bold text-gray-900 dark:text-zinc-100 whitespace-nowrap">
-            {selectedIds.size} seçili
-          </span>
-          <div className="h-6 w-px bg-gray-200 dark:bg-zinc-700" />
-          <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-medium shadow-sm">Sakla (Keep)</Button>
-          <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="bg-red-600 hover:bg-red-700 text-white rounded-full font-medium shadow-sm">Sil (Delete)</Button>
-          <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium shadow-sm">Export & Sakla</Button>
-          <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="bg-orange-600 hover:bg-orange-700 text-white rounded-full font-medium shadow-sm">Export & Sil</Button>
-        </div>
-      )}
+      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-2xl rounded-full px-6 py-4 flex items-center gap-4 z-[9999]">
+        <span className="text-sm font-bold text-gray-900 dark:text-zinc-100 whitespace-nowrap">
+          {selectedIds.size} seçili
+        </span>
+        <div className="h-6 w-px bg-gray-200 dark:bg-zinc-700" />
+        <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending || selectedIds.size === 0} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-medium shadow-sm">Sakla (Keep)</Button>
+        <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending || selectedIds.size === 0} className="bg-red-600 hover:bg-red-700 text-white rounded-full font-medium shadow-sm">Sil (Delete)</Button>
+        <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending || selectedIds.size === 0} className="bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium shadow-sm">Export & Sakla</Button>
+        <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending || selectedIds.size === 0} className="bg-orange-600 hover:bg-orange-700 text-white rounded-full font-medium shadow-sm">Export & Sil</Button>
+      </div>
     </div>
   );
 }
