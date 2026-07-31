@@ -109,7 +109,12 @@ export const dictionaries = {
       noDate: 'Unknown date',
       notFound: 'No text available',
       noResults: 'No bookmarks found.',
-      showingFirst: 'Showing first 100 results.'
+      showingFirst: 'Showing first 100 results.',
+      bulkSelected: '{count} tweets selected',
+      bulkKeep: 'Keep',
+      bulkDelete: 'Delete',
+      bulkExportKeep: 'Export & Keep',
+      bulkExportDelete: 'Export & Delete'
     },
     authors: {
       title: 'Authors',
@@ -224,7 +229,12 @@ export const dictionaries = {
       noDate: 'Tarih bilinmiyor',
       notFound: 'Metin bulunamadı',
       noResults: 'Yer işareti bulunamadı.',
-      showingFirst: 'İlk 100 sonuç gösteriliyor.'
+      showingFirst: 'İlk 100 sonuç gösteriliyor.',
+      bulkSelected: '{count} adet tweet seçildi',
+      bulkKeep: 'Sakla',
+      bulkDelete: 'Sil',
+      bulkExportKeep: 'Dışa Aktar & Sakla',
+      bulkExportDelete: 'Dışa Aktar & Sil'
     },
     authors: {
       title: 'Yazarlar',

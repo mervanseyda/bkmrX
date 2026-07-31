@@ -129,17 +129,17 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
       </div>
 
       {selectedIds.size > 0 && (
-        <div className="bg-blue-50/50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-3 flex flex-wrap items-center justify-between gap-4 animate-in fade-in zoom-in-95 duration-200">
+        <div className="bg-zinc-50 dark:bg-zinc-800/50 border border-gray-200 dark:border-zinc-700 rounded-md p-3 flex flex-wrap items-center justify-between gap-4 animate-in fade-in zoom-in-95 duration-200">
           <div className="flex items-center gap-3">
-            <span className="text-sm font-semibold text-blue-800 dark:text-blue-300">
-              {selectedIds.size} adet tweet seçildi
+            <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              {dict.bulkSelected ? dict.bulkSelected.replace('{count}', selectedIds.size.toString()) : `${selectedIds.size} selected`}
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm">Sakla</Button>
-            <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="bg-red-600 hover:bg-red-700 text-white shadow-sm">Sil</Button>
-            <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">Export & Sakla</Button>
-            <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="bg-orange-600 hover:bg-orange-700 text-white shadow-sm">Export & Sil</Button>
+            <Button size="sm" variant="outline" onClick={() => handleBulkAction('keep')} disabled={isPending} className="border-emerald-600 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-500 dark:text-emerald-400 dark:hover:bg-emerald-950/30">{dict.bulkKeep || 'Keep'}</Button>
+            <Button size="sm" variant="outline" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="border-red-600 text-red-700 hover:bg-red-50 dark:border-red-500 dark:text-red-400 dark:hover:bg-red-950/30">{dict.bulkDelete || 'Delete'}</Button>
+            <Button size="sm" variant="outline" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="border-blue-600 text-blue-700 hover:bg-blue-50 dark:border-blue-500 dark:text-blue-400 dark:hover:bg-blue-950/30">{dict.bulkExportKeep || 'Export & Keep'}</Button>
+            <Button size="sm" variant="outline" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="border-orange-600 text-orange-700 hover:bg-orange-50 dark:border-orange-500 dark:text-orange-400 dark:hover:bg-orange-950/30">{dict.bulkExportDelete || 'Export & Delete'}</Button>
           </div>
         </div>
       )}
