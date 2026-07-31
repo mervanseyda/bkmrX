@@ -156,8 +156,7 @@ export function ReviewInterface({
         </CardContent>
         <CardFooter className="border-t border-gray-200 dark:border-zinc-800 pt-4 flex flex-wrap gap-2 justify-between">
           <Button 
-            style={{ backgroundColor: '#10b981', color: 'white' }}
-            className="flex-1"
+            className="flex-1 bg-[#10b981] hover:bg-[#059669] text-white"
             onClick={() => handleAction('keep')}
             disabled={isPending}
           >
@@ -165,8 +164,7 @@ export function ReviewInterface({
             {dict.keep}
           </Button>
           <Button 
-            style={{ backgroundColor: '#ef4444', color: 'white' }}
-            className="flex-1"
+            className="flex-1 bg-[#ef4444] hover:bg-[#dc2626] text-white"
             onClick={() => handleAction('delete_candidate')}
             disabled={isPending}
           >
@@ -174,8 +172,7 @@ export function ReviewInterface({
             {dict.delete}
           </Button>
           <Button 
-            style={{ backgroundColor: '#f97316', color: 'white' }}
-            className="flex-1"
+            className="flex-1 bg-[#f97316] hover:bg-[#ea580c] text-white"
             onClick={() => handleAction('export_and_delete')}
             disabled={isPending}
           >
@@ -183,8 +180,7 @@ export function ReviewInterface({
             Dışa Aktar & Sil
           </Button>
           <Button 
-            style={{ backgroundColor: '#3b82f6', color: 'white' }}
-            className="flex-1"
+            className="flex-1 bg-[#3b82f6] hover:bg-[#2563eb] text-white"
             onClick={() => handleAction('export_and_keep')}
             disabled={isPending}
           >

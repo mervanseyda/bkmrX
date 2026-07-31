@@ -38,21 +38,21 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'unreviewed':
-        return <Badge className="bg-zinc-500 hover:bg-zinc-600 text-white border-0 font-medium">{dict.statusUnreviewed}</Badge>;
+        return <Badge className="bg-[#71717a] hover:bg-[#52525b] text-white border-0 font-medium">{dict.statusUnreviewed}</Badge>;
       case 'keep':
-        return <Badge className="bg-emerald-500 hover:bg-emerald-600 text-white border-0 font-medium">{dict.statusKeep}</Badge>;
+        return <Badge className="bg-[#10b981] hover:bg-[#059669] text-white border-0 font-medium">{dict.statusKeep}</Badge>;
       case 'delete_candidate':
-        return <Badge className="bg-red-500 hover:bg-red-600 text-white border-0 font-medium">{dict.statusDelete}</Badge>;
+        return <Badge className="bg-[#ef4444] hover:bg-[#dc2626] text-white border-0 font-medium">{dict.statusDelete}</Badge>;
       case 'export_to_raindrop':
-        return <Badge className="bg-blue-500 hover:bg-blue-600 text-white border-0 font-medium">{dict.statusExport}</Badge>;
+        return <Badge className="bg-[#3b82f6] hover:bg-[#2563eb] text-white border-0 font-medium">{dict.statusExport}</Badge>;
       case 'export_and_keep':
-        return <Badge className="bg-blue-500 hover:bg-blue-600 text-white border-0 font-medium">{dict.statusExport} & Sakla</Badge>;
+        return <Badge className="bg-[#3b82f6] hover:bg-[#2563eb] text-white border-0 font-medium">{dict.statusExport} & Sakla</Badge>;
       case 'export_and_delete':
-        return <Badge className="bg-orange-500 hover:bg-orange-600 text-white border-0 font-medium">{dict.statusExport} & Sil</Badge>;
+        return <Badge className="bg-[#f97316] hover:bg-[#ea580c] text-white border-0 font-medium">{dict.statusExport} & Sil</Badge>;
       case 'undecided':
-        return <Badge className="bg-amber-500 hover:bg-amber-600 text-white border-0 font-medium">{dict.statusUndecided}</Badge>;
+        return <Badge className="bg-[#f59e0b] hover:bg-[#d97706] text-white border-0 font-medium">{dict.statusUndecided}</Badge>;
       case 'purged':
-        return <Badge className="bg-gray-800 hover:bg-gray-900 text-white border-0 font-medium">Purged</Badge>;
+        return <Badge className="bg-[#1f2937] hover:bg-[#111827] text-white border-0 font-medium">Purged</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -148,10 +148,10 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending} className="bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm border-0">{dict.bulkKeep || 'Keep'}</Button>
-            <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="bg-red-500 hover:bg-red-600 text-white shadow-sm border-0">{dict.bulkDelete || 'Delete'}</Button>
-            <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="bg-blue-500 hover:bg-blue-600 text-white shadow-sm border-0">{dict.bulkExportKeep || 'Export & Keep'}</Button>
-            <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="bg-orange-500 hover:bg-orange-600 text-white shadow-sm border-0">{dict.bulkExportDelete || 'Export & Delete'}</Button>
+            <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending} className="bg-[#10b981] hover:bg-[#059669] text-white shadow-sm border-0">{dict.bulkKeep || 'Keep'}</Button>
+            <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="bg-[#ef4444] hover:bg-[#dc2626] text-white shadow-sm border-0">{dict.bulkDelete || 'Delete'}</Button>
+            <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="bg-[#3b82f6] hover:bg-[#2563eb] text-white shadow-sm border-0">{dict.bulkExportKeep || 'Export & Keep'}</Button>
+            <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="bg-[#f97316] hover:bg-[#ea580c] text-white shadow-sm border-0">{dict.bulkExportDelete || 'Export & Delete'}</Button>
           </div>
         </div>
       )}
