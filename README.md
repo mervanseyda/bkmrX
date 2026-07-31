@@ -2,19 +2,19 @@
 
 **English** | [Türkçe](README.tr.md)
 
-A privacy-first, local web app for reviewing, organizing, exporting, and cleaning up your X (formerly Twitter) bookmarks.
+Organize your X bookmarks. A privacy-first local web app for reviewing / organizing / exporting and cleaning up your X (formerly Twitter) bookmarks.
 
-Your imported data stays in a SQLite database on your computer. bkmrX does not require an account, analytics service, cloud database, or X session cookies.
+Your imported data stays in a SQLite database on your computer. bkmrX does not require an account, analytics service, cloud database or anything like that.
 
 ## What it does
 
 - Exports bookmarks directly from your open X tab with a browser-console script
-- Imports the generated JSON file (plus compatible ZIP, JS, and CSV files)
-- Provides a keyboard-friendly review flow: keep, delete candidate, export, or decide later
+- Imports the generated JSON file (also compatible with ZIP, JS, and CSV files)
+- Provides a keyboard-friendly review flow: keep, delete, export or decide later
 - Groups bookmarks by author and keeps every review decision local
-- Exports selected items as a Raindrop.io-compatible CSV file
+- Exports selected items as a Raindrop.io compatible CSV file
 - Generates an optional browser-console script for removing queued bookmarks from X
-- Supports English and Turkish, plus light and dark themes
+- Supports English and Turkish / light and dark themes
 
 Marking a bookmark as **Delete** only adds it to a local queue. Nothing is removed from X until you explicitly generate the deletion script and run it while signed in on `x.com`.
 
