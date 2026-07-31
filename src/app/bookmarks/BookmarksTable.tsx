@@ -128,6 +128,22 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
         </select>
       </div>
 
+      {selectedIds.size > 0 && (
+        <div className="bg-blue-50/50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-3 flex flex-wrap items-center justify-between gap-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-semibold text-blue-800 dark:text-blue-300">
+              {selectedIds.size} adet tweet seçildi
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm">Sakla</Button>
+            <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="bg-red-600 hover:bg-red-700 text-white shadow-sm">Sil</Button>
+            <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">Export & Sakla</Button>
+            <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="bg-orange-600 hover:bg-orange-700 text-white shadow-sm">Export & Sil</Button>
+          </div>
+        </div>
+      )}
+
       <div className="rounded-md border border-gray-200 dark:border-zinc-800 overflow-hidden bg-white dark:bg-zinc-900/50">
         <Table>
           <TableHeader className="bg-white dark:bg-zinc-900">
@@ -195,17 +211,6 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
             {dict.showingFirst} ({sorted.length} total)
           </div>
         )}
-      </div>
-
-      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-2xl rounded-full px-6 py-4 flex items-center gap-4 z-[9999]">
-        <span className="text-sm font-bold text-gray-900 dark:text-zinc-100 whitespace-nowrap">
-          {selectedIds.size} seçili
-        </span>
-        <div className="h-6 w-px bg-gray-200 dark:bg-zinc-700" />
-        <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending || selectedIds.size === 0} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-medium shadow-sm">Sakla (Keep)</Button>
-        <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending || selectedIds.size === 0} className="bg-red-600 hover:bg-red-700 text-white rounded-full font-medium shadow-sm">Sil (Delete)</Button>
-        <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending || selectedIds.size === 0} className="bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium shadow-sm">Export & Sakla</Button>
-        <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending || selectedIds.size === 0} className="bg-orange-600 hover:bg-orange-700 text-white rounded-full font-medium shadow-sm">Export & Sil</Button>
       </div>
     </div>
   );
