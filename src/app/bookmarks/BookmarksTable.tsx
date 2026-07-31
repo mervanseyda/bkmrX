@@ -35,15 +35,27 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
     }
   }, [initialStatus]);
 
-  const statusMap: Record<string, { label: string, color: string }> = {
-    unreviewed: { label: dict.statusUnreviewed, color: 'bg-zinc-700' },
-    keep: { label: dict.statusKeep, color: 'bg-emerald-600' },
-    delete_candidate: { label: dict.statusDelete, color: 'bg-red-600' },
-    export_to_raindrop: { label: dict.statusExport, color: 'bg-blue-600' },
-    export_and_keep: { label: 'Export & Sakla', color: 'bg-blue-600' },
-    export_and_delete: { label: 'Export & Sil', color: 'bg-orange-600' },
-    undecided: { label: dict.statusUndecided, color: 'bg-amber-600' },
-    purged: { label: 'Purged', color: 'bg-gray-800' },
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'unreviewed':
+        return <Badge className="bg-zinc-500 hover:bg-zinc-600 text-white border-0 font-medium">{dict.statusUnreviewed}</Badge>;
+      case 'keep':
+        return <Badge className="bg-emerald-500 hover:bg-emerald-600 text-white border-0 font-medium">{dict.statusKeep}</Badge>;
+      case 'delete_candidate':
+        return <Badge className="bg-red-500 hover:bg-red-600 text-white border-0 font-medium">{dict.statusDelete}</Badge>;
+      case 'export_to_raindrop':
+        return <Badge className="bg-blue-500 hover:bg-blue-600 text-white border-0 font-medium">{dict.statusExport}</Badge>;
+      case 'export_and_keep':
+        return <Badge className="bg-blue-500 hover:bg-blue-600 text-white border-0 font-medium">{dict.statusExport} & Sakla</Badge>;
+      case 'export_and_delete':
+        return <Badge className="bg-orange-500 hover:bg-orange-600 text-white border-0 font-medium">{dict.statusExport} & Sil</Badge>;
+      case 'undecided':
+        return <Badge className="bg-amber-500 hover:bg-amber-600 text-white border-0 font-medium">{dict.statusUndecided}</Badge>;
+      case 'purged':
+        return <Badge className="bg-gray-800 hover:bg-gray-900 text-white border-0 font-medium">Purged</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
   };
 
   const filtered = initialData.filter(b => {
@@ -136,10 +148,10 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending} className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm">{dict.bulkKeep || 'Keep'}</Button>
-            <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="bg-red-600 hover:bg-red-700 text-white shadow-sm">{dict.bulkDelete || 'Delete'}</Button>
-            <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">{dict.bulkExportKeep || 'Export & Keep'}</Button>
-            <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="bg-orange-600 hover:bg-orange-700 text-white shadow-sm">{dict.bulkExportDelete || 'Export & Delete'}</Button>
+            <Button size="sm" onClick={() => handleBulkAction('keep')} disabled={isPending} className="bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm border-0">{dict.bulkKeep || 'Keep'}</Button>
+            <Button size="sm" onClick={() => handleBulkAction('delete_candidate')} disabled={isPending} className="bg-red-500 hover:bg-red-600 text-white shadow-sm border-0">{dict.bulkDelete || 'Delete'}</Button>
+            <Button size="sm" onClick={() => handleBulkAction('export_and_keep')} disabled={isPending} className="bg-blue-500 hover:bg-blue-600 text-white shadow-sm border-0">{dict.bulkExportKeep || 'Export & Keep'}</Button>
+            <Button size="sm" onClick={() => handleBulkAction('export_and_delete')} disabled={isPending} className="bg-orange-500 hover:bg-orange-600 text-white shadow-sm border-0">{dict.bulkExportDelete || 'Export & Delete'}</Button>
           </div>
         </div>
       )}
@@ -193,9 +205,7 @@ export function BookmarksTable({ initialData, dict, initialStatus }: { initialDa
                   {bookmark.postDate ? new Date(bookmark.postDate).toLocaleDateString() : dict.noDate}
                 </TableCell>
                 <TableCell>
-                  <Badge className={`${statusMap[bookmark.status]?.color} hover:${statusMap[bookmark.status]?.color} border-0 text-white font-medium`}>
-                    {statusMap[bookmark.status]?.label || bookmark.status}
-                  </Badge>
+                  {getStatusBadge(bookmark.status)}
                 </TableCell>
                 <TableCell className="text-right">
                   <a href={bookmark.url} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center size-8 rounded-md hover:bg-gray-200 dark:bg-zinc-800 text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:text-white">
