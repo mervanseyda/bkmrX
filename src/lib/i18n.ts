@@ -20,7 +20,9 @@ export const dictionaries = {
       delete: 'Delete Candidates',
       quickActions: 'Quick Actions',
       startReview: 'Start Reviewing',
-      exportBtn: 'Export Selected'
+      exportBtn: 'Export Selected',
+      exportKeep: 'Export & Keep',
+      exportDelete: 'Export & Delete'
     },
     import: {
       title: 'Import Data',
@@ -140,7 +142,9 @@ export const dictionaries = {
       delete: 'Silinecek Adaylar',
       quickActions: 'Hızlı Eylemler',
       startReview: 'İncelemeye Başla',
-      exportBtn: 'Seçili Kayıtları Dışa Aktar'
+      exportBtn: 'Seçili Kayıtları Dışa Aktar',
+      exportKeep: 'Dışa Aktar & Sakla',
+      exportDelete: 'Dışa Aktar & Sil'
     },
     import: {
       title: 'Arşivi Yükle',

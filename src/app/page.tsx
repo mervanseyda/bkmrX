@@ -4,7 +4,7 @@ import { count } from 'drizzle-orm';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Bookmark, CheckCircle, Trash2, Download,
-  CheckSquare, Zap
+  CheckSquare, Zap, Archive, ArrowDownToLine
 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -39,7 +39,7 @@ export default async function Dashboard() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Link href="/bookmarks" className="block transition-transform hover:scale-[102%]">
           <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 h-full">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -104,7 +104,33 @@ export default async function Dashboard() {
           </Card>
         </Link>
 
+        <Link href="/bookmarks?status=export_and_keep" className="block transition-transform hover:scale-[102%]">
+          <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.exportKeep}</CardTitle>
+              <Archive className="w-4 h-4 text-blue-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                {statusCounts['export_and_keep'] || 0}
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
 
+        <Link href="/bookmarks?status=export_and_delete" className="block transition-transform hover:scale-[102%]">
+          <Card className="bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800 h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-500 dark:text-zinc-400">{dict.exportDelete}</CardTitle>
+              <ArrowDownToLine className="w-4 h-4 text-orange-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                {statusCounts['export_and_delete'] || 0}
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
