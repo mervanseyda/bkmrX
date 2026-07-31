@@ -156,7 +156,8 @@ export function ReviewInterface({
         </CardContent>
         <CardFooter className="border-t border-gray-200 dark:border-zinc-800 pt-4 flex flex-wrap gap-2 justify-between">
           <Button 
-            className="bg-emerald-600 hover:bg-emerald-700 text-white flex-1"
+            style={{ backgroundColor: '#10b981', color: 'white' }}
+            className="flex-1"
             onClick={() => handleAction('keep')}
             disabled={isPending}
           >
@@ -164,8 +165,8 @@ export function ReviewInterface({
             {dict.keep}
           </Button>
           <Button 
-            variant="destructive" 
-            className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+            style={{ backgroundColor: '#ef4444', color: 'white' }}
+            className="flex-1"
             onClick={() => handleAction('delete_candidate')}
             disabled={isPending}
           >
@@ -173,20 +174,22 @@ export function ReviewInterface({
             {dict.delete}
           </Button>
           <Button 
-            className="bg-orange-600 hover:bg-orange-700 text-white flex-1"
+            style={{ backgroundColor: '#f97316', color: 'white' }}
+            className="flex-1"
             onClick={() => handleAction('export_and_delete')}
             disabled={isPending}
           >
             <Download className="w-4 h-4 mr-2" />
-            Export & Sil
+            Dışa Aktar & Sil
           </Button>
           <Button 
-            className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+            style={{ backgroundColor: '#3b82f6', color: 'white' }}
+            className="flex-1"
             onClick={() => handleAction('export_and_keep')}
             disabled={isPending}
           >
             <Download className="w-4 h-4 mr-2" />
-            Export & Sakla
+            Dışa Aktar & Sakla
           </Button>
           <Button 
             variant="outline" 
@@ -203,8 +206,8 @@ export function ReviewInterface({
       <div className="text-gray-400 dark:text-zinc-500 text-sm flex gap-4 mt-8">
         <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">K</kbd> {dict.keep}</span>
         <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">D</kbd> {dict.delete}</span>
-        <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">E</kbd> Export & Sil</span>
-        <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">S</kbd> Export & Sakla</span>
+        <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">E</kbd> Dışa Aktar & Sil</span>
+        <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">S</kbd> Dışa Aktar & Sakla</span>
         <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">U</kbd> {dict.undecided}</span>
         <span><kbd className="font-mono bg-gray-200 dark:bg-zinc-800 px-1 py-0.5 rounded border border-gray-300 dark:border-zinc-700">O</kbd> {dict.open}</span>
       </div>
