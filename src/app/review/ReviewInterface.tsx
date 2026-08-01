@@ -42,11 +42,13 @@ export function ReviewInterface({
         const message = {
           keep: dict.markedKeep,
           delete_candidate: dict.markedDelete,
-          export_and_keep: 'Export & Sakla olarak işaretlendi',
-          export_and_delete: 'Export & Sil olarak işaretlendi',
+          export_and_keep: 'Dışa Aktar & Sakla olarak işaretlendi',
+          export_and_delete: 'Dışa Aktar & Sil olarak işaretlendi',
           undecided: dict.markedUndecided,
         }[status] || dict.statusUpdated;
-        toast.success(message);
+        if (status !== 'keep') {
+          toast.success(message);
+        }
         if (currentIndex < items.length - 1) {
           setCurrentIndex(c => c + 1);
         } else {
@@ -156,36 +158,36 @@ export function ReviewInterface({
         </CardContent>
         <CardFooter className="border-t border-gray-200 dark:border-zinc-800 pt-4 flex flex-wrap gap-2 justify-between">
           <Button 
-            className="flex-1 bg-[#10b981] hover:bg-[#059669] text-white"
+            className="flex-1 bg-status-keep hover:bg-status-keep-hover text-white"
             onClick={() => handleAction('keep')}
             disabled={isPending}
           >
             <Check className="w-4 h-4 mr-2" />
-            {dict.keep}
+            {dict.keep} [K]
           </Button>
           <Button 
-            className="flex-1 bg-[#ef4444] hover:bg-[#dc2626] text-white"
+            className="flex-1 bg-status-delete hover:bg-status-delete-hover text-white"
             onClick={() => handleAction('delete_candidate')}
             disabled={isPending}
           >
             <Trash2 className="w-4 h-4 mr-2" />
-            {dict.delete}
+            {dict.delete} [D]
           </Button>
           <Button 
-            className="flex-1 bg-[#f97316] hover:bg-[#ea580c] text-white"
+            className="flex-1 bg-status-export-delete hover:bg-status-export-delete-hover text-white"
             onClick={() => handleAction('export_and_delete')}
             disabled={isPending}
           >
             <Download className="w-4 h-4 mr-2" />
-            Dışa Aktar & Sil
+            Dışa Aktar & Sil [E]
           </Button>
           <Button 
-            className="flex-1 bg-[#3b82f6] hover:bg-[#2563eb] text-white"
+            className="flex-1 bg-status-export hover:bg-status-export-hover text-white"
             onClick={() => handleAction('export_and_keep')}
             disabled={isPending}
           >
             <Download className="w-4 h-4 mr-2" />
-            Dışa Aktar & Sakla
+            Dışa Aktar & Sakla [S]
           </Button>
           <Button 
             variant="outline" 
@@ -194,7 +196,7 @@ export function ReviewInterface({
             disabled={isPending}
           >
             <HelpCircle className="w-4 h-4 mr-2" />
-            {dict.undecided}
+            {dict.undecided} [U]
           </Button>
         </CardFooter>
       </Card>

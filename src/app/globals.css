@@ -46,6 +46,19 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --color-status-keep: #10b981;
+  --color-status-keep-hover: #059669;
+  --color-status-delete: #ef4444;
+  --color-status-delete-hover: #dc2626;
+  --color-status-export: #3b82f6;
+  --color-status-export-hover: #2563eb;
+  --color-status-export-delete: #f97316;
+  --color-status-export-delete-hover: #ea580c;
+  --color-status-undecided: #f59e0b;
+  --color-status-undecided-hover: #d97706;
+  --color-status-unreviewed: #71717a;
+  --color-status-unreviewed-hover: #52525b;
 }
 
 :root {
